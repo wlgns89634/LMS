@@ -2,21 +2,36 @@
 
 import { Video } from "@/types";
 import Image from "next/image";
+import { useProgress } from "@/hooks/useProgress";
+import { useModalStore } from "@/store/modalStore";
 
 interface Props {
   video: Video;
 }
 
 export default function VideoCard({ video }: Props) {
+  const { progress } = useProgress(video.id);
+  const { openVideoModal } = useModalStore();
   return (
-    <div className="border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition">
+    <div
+      onClick={() => openVideoModal(video.id)}
+      className="border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition"
+    >
       <Image
         src={video.thumbnail}
         alt={video.title}
         width={320}
         height={180}
         className="w-full"
+        loading="eager"
       />
+      <div className="w-full bg-gray-200 rounded-full h-1.5">
+        <div
+          className="bg-blue-500 h-1.5 rounded-full"
+          style={{ width: `${progress?.percent ?? 0}%` }}
+        />
+      </div>
+
       <div className="p-4">
         <h2 className="font-semibold text-sm line-clamp-2">{video.title}</h2>
         <p className="text-gray-500 text-xs mt-1">{video.channelTitle}</p>

@@ -45,3 +45,5 @@ export interface YouTubeSearchItem {
 export interface YouTubeSearchResponse {
   items: YouTubeSearchItem[];
 }
+
+export type ModalType = "video" | "success" | "error" | "confirm" | "form";
